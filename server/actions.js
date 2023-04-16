@@ -29,7 +29,15 @@ router.post("/delete", async(req, res) => {
     await PostMessage.findByIdAndDelete(req.body._id);
     console.log('deleted');
   });
-  
+
+router.post("/edit", async(req, res) => {
+  console.log('editing');
+  console.log(req.body._id+"  "+req.body.item);
+
+  // finds the object by its id and deletes it
+  await PostMessage.findByIdAndUpdate(req.body._id,{'name':req.body.item});
+  console.log('edited');
+});
 
 // // gets the objects in the database
 router.get("/todo", async(req, res) => {

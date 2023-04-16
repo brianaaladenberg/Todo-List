@@ -33,7 +33,7 @@ function Form() {
     <form class='card' onSubmit={handleSubmit}>
       <div>
         <label>
-          Thing to do:
+          Thing to do: 
           <input type="text" value={name} onChange={e => setName(e.target.value)} />
         </label>
         <button type="submit">Add</button>

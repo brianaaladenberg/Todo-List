@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import '../styles/styles.css';
 
 function Posts() {
   const [listOfItems, setlistOfItems] = useState([]);
+
 
   async function logJSONData() {
     const response = await fetch("http://localhost:8000/api/todo");
@@ -38,6 +39,34 @@ function Posts() {
       });
   };
 
+  //edit the items
+  const [isEditing, setIsEditing] = useState("");
+  const changeItem = (event) => {
+    event.preventDefault();
+    console.log(event.target[0].value);
+    const itemToSend = event.target[0].value;
+    console.log(event.target[0].name);
+    const idToSend = event.target[0].name;
+    console.log("sending to backend to change the item");
+
+    fetch("http://localhost:8000/api/edit", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({"_id":idToSend,"item":itemToSend}) 
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('edited successfully:');
+        // Do something with successful response data
+      })
+      .catch(error => {
+        console.error('edited unsuccessfully', error);
+        // Do something with error
+      });
+  };
+
   return(
     <div class='card'>
       <div class='list'>
@@ -46,8 +75,15 @@ function Posts() {
           {listOfItems.map((item) => {
             return (
               <div>
-                <li key="{item._id}">
-                  {item.name}
+                <li key="{item._id}" onClick={() => setIsEditing(item._id)} value="{item.name}">
+                  {
+                  isEditing === item._id ?
+                    <form onSubmit={changeItem}>
+                      <input type='text' name={item._id} defaultValue={item.name}/>
+                      <button type="submit">+</button>
+                    </form>
+                  : item.name
+                  }
                   <button type="submit" value={item._id} onClick={deleteItem}>X</button>
                 </li>
               </div>
