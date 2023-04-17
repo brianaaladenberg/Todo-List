@@ -30,7 +30,7 @@ function Form() {
   };
 
   return (
-    <form class='card' onSubmit={handleSubmit}>
+    <form class='' onSubmit={handleSubmit}>
       <div>
         <label>
           Thing to do: 

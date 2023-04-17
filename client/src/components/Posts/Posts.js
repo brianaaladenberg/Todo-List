@@ -42,10 +42,9 @@ function Posts() {
   //edit the items
   const [isEditing, setIsEditing] = useState("");
   const changeItem = (event) => {
+    setIsEditing('');
     event.preventDefault();
-    console.log(event.target[0].value);
     const itemToSend = event.target[0].value;
-    console.log(event.target[0].name);
     const idToSend = event.target[0].name;
     console.log("sending to backend to change the item");
 
@@ -68,23 +67,23 @@ function Posts() {
   };
 
   return(
-    <div class='card'>
+    <div class=''>
       <div class='list'>
         <h1>Things to do</h1>
         <ul>
           {listOfItems.map((item) => {
             return (
               <div>
-                <li key="{item._id}" onClick={() => setIsEditing(item._id)} value="{item.name}">
+              <button type="submit" class="alright btn btn-sm btn-outline-primary" value={item._id} onClick={deleteItem}>X</button>
+                <li key="{item._id}" class="alright" onClick={() => setIsEditing(item._id)} value="{item.name}">
                   {
                   isEditing === item._id ?
                     <form onSubmit={changeItem}>
                       <input type='text' name={item._id} defaultValue={item.name}/>
-                      <button type="submit">+</button>
+                      <button type="submit" class="btn btn-outline-primary btn-sm">save</button>
                     </form>
-                  : item.name
+                  : " "+item.name
                   }
-                  <button type="submit" value={item._id} onClick={deleteItem}>X</button>
                 </li>
               </div>
             );

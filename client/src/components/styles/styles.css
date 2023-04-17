@@ -18,3 +18,15 @@ form {
   color:black;
   margin: 5px auto;
 }
+.btn-right {
+  display: flex;
+  justify-content: space-between;
+  text-align: right;
+  background-color: blueviolet;
+  white-space: nowrap;
+}
+.alright {
+  display: inline;
+  text-align: right;
+  white-space: nowrap;
+}
