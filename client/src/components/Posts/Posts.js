@@ -67,29 +67,33 @@ function Posts() {
   };
 
   return(
-    <div class=''>
-      <div class='list'>
-        <h1>Things to do</h1>
-        <ul>
-          {listOfItems.map((item) => {
-            return (
-              <div>
-              <button type="submit" class="alright btn btn-sm btn-outline-primary" value={item._id} onClick={deleteItem}>X</button>
-                <li key="{item._id}" class="alright" onClick={() => setIsEditing(item._id)} value="{item.name}">
-                  {
-                  isEditing === item._id ?
-                    <form onSubmit={changeItem}>
-                      <input type='text' name={item._id} defaultValue={item.name}/>
-                      <button type="submit" class="btn btn-outline-primary btn-sm">save</button>
-                    </form>
-                  : " "+item.name
-                  }
-                </li>
+    <div class='list'>
+      <h1><br />Things to do</h1>
+      <ul>
+        {listOfItems.map((item) => {
+          return (
+            <div class="container">
+              <div class="row">
+                <div class="col-1">
+                  <button type="submit" class="btn btn-sm btn-outline-dark" value={item._id} onClick={deleteItem}>X</button>
+                </div>
+                <div class="col-11">
+                  <li key="{item._id}" onClick={() => setIsEditing(item._id)} value="{item.name}">
+                    {
+                    isEditing === item._id ?
+                      <form onSubmit={changeItem} class="input-group">
+                        <textarea class="form-control overflow-auto" name={item._id} defaultValue={item.name}/>
+                        <button type="submit" class="btn btn-outline-dark btn-sm">save</button>
+                      </form>
+                    :item.name
+                    }
+                  </li>
+                </div>
               </div>
-            );
-          })}
-        </ul>
-      </div>
+            </div>
+          );
+        })}
+      </ul>
     </div>
   );
 };

@@ -1,32 +1,21 @@
-.everything {
-  color: black;
-  border: 1rem;
-}
-.list {
-  margin: 10px;
-}
-.title {
+h1 {
   text-align: center;
 }
 form {
   text-align: center;
   display: inline;
 }
+li {
+  list-style-type: none;
+}
 .card {
-  background-color: rgb(0, 162, 255);
+  outline: 2px black;
+  background-color: rgb(0, 132, 255);
   width: 400px;
   color:black;
   margin: 5px auto;
 }
-.btn-right {
-  display: flex;
-  justify-content: space-between;
-  text-align: right;
-  background-color: blueviolet;
-  white-space: nowrap;
-}
-.alright {
-  display: inline;
-  text-align: right;
-  white-space: nowrap;
+.btn-sm {
+  --bs-btn-padding-y: 0rem;
+  --bs-btn-padding-x: .20rem;
 }

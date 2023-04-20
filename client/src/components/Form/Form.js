@@ -36,7 +36,7 @@ function Form() {
           Thing to do: 
           <input type="text" value={name} onChange={e => setName(e.target.value)} />
         </label>
-        <button type="submit">Add</button>
+        <button type="submit" class="btn btn-sm btn-outline-dark">Add</button>
       </div>
     </form>
   );

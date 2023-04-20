@@ -8,8 +8,8 @@ const App = () => {
     //const classes = useStyles();
 
     return (
-        <div class='everything card text-right'>
-            <h1 class='title'>Todo List</h1>
+        <div class='card'>
+            <h1>Todo List</h1>
             <div>
                 <Form /> 
             </div>
