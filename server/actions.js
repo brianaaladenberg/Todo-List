@@ -17,7 +17,7 @@ router.post("/form", async(req, res) => {
   PostMessage.collection.insertOne(newEntry);
   
   // Send a response back to the client
-  //res.json({ message: "Form submission successful!" });
+  res.json({ message: "Form submission successful!" });
 });
 
 
@@ -28,7 +28,8 @@ router.post("/delete", async(req, res) => {
     // finds the object by its id and deletes it
     await PostMessage.findByIdAndDelete(req.body._id);
     console.log('deleted');
-  });
+    res.json({ message: "deletion successful!" });
+});
 
 router.post("/edit", async(req, res) => {
   console.log('editing');
@@ -37,15 +38,13 @@ router.post("/edit", async(req, res) => {
   // finds the object by its id and deletes it
   await PostMessage.findByIdAndUpdate(req.body._id,{'name':req.body.item});
   console.log('edited');
+  res.json({ message: "edit successful!" });
 });
 
 // // gets the objects in the database
 router.get("/todo", async(req, res) => {
     const allItems = await PostMessage.find().exec();
     res.json(allItems);
-  });
+});
   
-// router.listen(8000, () => {
-//     console.log("Server started on port 8000");
-//   });
 export default router;

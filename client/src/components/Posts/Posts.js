@@ -1,19 +1,37 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../styles/styles.css';
 
 function Posts() {
   const [listOfItems, setlistOfItems] = useState([]);
 
-
+  //gets the list of items from the backend which uses mongodb
   async function logJSONData() {
     const response = await fetch("http://localhost:8000/api/todo");
     const data = await response.json();
-    return(data);
+    //updates the list of items thats displayed
+    setlistOfItems(data);
+    console.log(data); 
+    return data;
   }
 
-  logJSONData().then((data) => {
-    setlistOfItems(data);
+  //updates the items when called
+  const UpdateItems = () => {
+    useEffect(() => {
+      logJSONData();
+    },[]);
+  };
+
+  //updates the items every 5 seconds
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      logJSONData();
+    },5000)
+    return () => clearInterval(intervalId);
   });
+
+  //gets the list of items on initial page load
+  UpdateItems();
+
 
   const deleteItem = (event) => {
     const idToSend = event.target.value;
@@ -28,11 +46,13 @@ function Posts() {
       },
       body: JSON.stringify({"_id":idToSend}) 
     })
-      .then(response => response.json())
       .then(data => {
         console.log('deleted successfully:', event.target.value);
         // Do something with successful response data
+        //updates the displayed items
+        UpdateItems();
       })
+      .then(response => response.json())
       .catch(error => {
         console.error('deleted unsuccessfully', error);
         // Do something with error
@@ -64,6 +84,8 @@ function Posts() {
         console.error('edited unsuccessfully', error);
         // Do something with error
       });
+      //updates the displayed items
+      UpdateItems();
   };
 
   return(
