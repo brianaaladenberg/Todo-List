@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/styles.css';
+import Posts from '../Posts/Posts.js'
 
 function Form() {
   const [name, setName] = useState('');
+  const [reset, setReset] = useState(false);
+
+  useEffect(() => {
+    if (reset) {
+      setReset(false);
+    }
+  }, [reset]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setReset(true);
 
     console.log("sending to backend");
     // Send data to backend
@@ -18,9 +27,8 @@ function Form() {
     })
       .then(response => response.json())
       .then(data => {
-        console.log('Form submission successful:', data);
-        
-        // Do something with successful response data
+        console.log('Form submission successful:', event.target.value);
+        //updates the displayed items
       })
       .catch(error => {
         console.error('Error submitting form:', error);
@@ -30,15 +38,18 @@ function Form() {
   };
 
   return (
-    <form class='' onSubmit={handleSubmit}>
-      <div>
-        <label>
-          Thing to do: 
-          <input type="text" value={name} onChange={e => setName(e.target.value)} />
-        </label>
-        <button type="submit" class="btn btn-sm btn-outline-dark">Add</button>
-      </div>
-    </form>
+    <div>
+      <form class='' onSubmit={handleSubmit}>
+        <div>
+          <label>
+            Thing to do: 
+            <input type="text" value={name} onChange={e => setName(e.target.value)} />
+          </label>
+          <button type="submit" class="btn btn-sm btn-outline-dark">Add</button>
+        </div>
+      </form>
+      <Posts reset={reset}/>
+    </div>
   );
 }
 

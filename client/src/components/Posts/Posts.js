@@ -1,37 +1,38 @@
 import React, { useEffect, useState } from "react";
 import '../styles/styles.css';
 
-function Posts() {
+function Posts(props) {
   const [listOfItems, setlistOfItems] = useState([]);
 
-  //gets the list of items from the backend which uses mongodb
-  async function logJSONData() {
+  //gets the list of items from the backend which uses mongodb when called
+  const UpdateItems = async () => {
     const response = await fetch("http://localhost:8000/api/todo");
     const data = await response.json();
     //updates the list of items thats displayed
     setlistOfItems(data);
     console.log(data); 
-    return data;
-  }
+  };
 
   //updates the items when called
-  const UpdateItems = () => {
-    useEffect(() => {
-      logJSONData();
-    },[]);
-  };
+  useEffect(() => {
+    UpdateItems();
+  },[]);
+
+  //updates the items when called from the form
+  useEffect(() => {
+    if (props.reset) {
+      console.log('reloading');
+      UpdateItems();
+    }
+  },[props.reset]);
 
   //updates the items every 5 seconds
   useEffect(() => {
     const intervalId = setInterval(() => {
-      logJSONData();
+      UpdateItems();
     },5000)
     return () => clearInterval(intervalId);
   });
-
-  //gets the list of items on initial page load
-  UpdateItems();
-
 
   const deleteItem = (event) => {
     const idToSend = event.target.value;
@@ -46,13 +47,12 @@ function Posts() {
       },
       body: JSON.stringify({"_id":idToSend}) 
     })
+      .then(response => response.json())
       .then(data => {
         console.log('deleted successfully:', event.target.value);
-        // Do something with successful response data
         //updates the displayed items
-        UpdateItems();
+        UpdateItems();   
       })
-      .then(response => response.json())
       .catch(error => {
         console.error('deleted unsuccessfully', error);
         // Do something with error
@@ -78,14 +78,14 @@ function Posts() {
       .then(response => response.json())
       .then(data => {
         console.log('edited successfully:');
-        // Do something with successful response data
+        //updates the displayed items
+        UpdateItems();  
       })
       .catch(error => {
         console.error('edited unsuccessfully', error);
         // Do something with error
       });
       //updates the displayed items
-      UpdateItems();
   };
 
   return(
